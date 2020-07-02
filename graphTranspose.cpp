@@ -1,6 +1,10 @@
+/** graph Theroy **/
+
 #include<iostream>
 #include<vector>
 #include<algorithm>
+
+#define SIZE 5
 
 using namespace std;
 void addEdge(vector<int>g[], int u, int v)
@@ -33,27 +37,48 @@ void removeGraph(vector<int> g[], int u, int v)
         cout<<"Sorry.. No edge found between "<< u << " and "<< v;
     }
 }
+
+void transpose(vector<int>g[], vector<int>gt[], int size)
+{
+    for(int i=0;i<size;i++)
+    {
+        //for(auto it=g[i].begin(); it != g[i].end(); it++)
+        //{
+         //   g[*it].push_back(i);
+       // }
+
+       for(auto x: g[i]) //for each replacement of above ilterator
+       {
+           gt[x].push_back(i);
+       }
+    }
+}
 int main()
 {
     vector<int> g[5];
     int u, v;
     addEdge(g, 0, 1);
-    addEdge(g, 1, 4);
-    addEdge(g, 0, 4);
-    addEdge(g, 4, 3);
     addEdge(g, 1, 3);
     addEdge(g, 2, 1);
     addEdge(g, 3, 2);
-    //addEdge(g, 2, 0);
+    addEdge(g, 3, 4);
+    addEdge(g, 4, 0);
+    addEdge(g, 4, 1);
     //addEdge(g, 2, 0);
 
     cout<<"Adjency list is: "<<endl;
     displayGraph(g, 5);
 
-    removeGraph(g, 1, 4);
+    //removeGraph(g, 1, 4);
 
-    cout<<"after removeing the edge new Adjency list: "<<endl;
-    displayGraph(g, 5);
+    //cout<<"after removeing the edge new Adjency list: "<<endl;
+    //displayGraph(g, 5);
+
+    vector<int> gt[SIZE];
+     transpose(g, gt, SIZE);
+
+    cout<<"Transpose of the graph"<<endl;
+    displayGraph(gt, SIZE);
 
     return 0;
 }
