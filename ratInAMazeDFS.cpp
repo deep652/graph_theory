@@ -1,20 +1,71 @@
 #include<iostream>
 #include<vector>
 #include<list>
+#include<map>
 
 using namespace std;
 
 void printList(vector<vector<int> >& adjList)
 {
-    for(int i=1; i<adjList.size(); i++)
+    for(int i=0; i<adjList.size(); i++)
     {
-        for(int j=1; j<adjList[i].size(); j++)
+        cout<<i+1<<"-> ";
+        for(int j=0; j<adjList[i].size(); j++)
         {
             cout<<adjList[i][j]<<",";
         }
+        cout<<endl;
     }
 }
 
+void dfs(vector<vector<int> >& adj, int v, map<int, bool>& visited)
+{
+     visited[v] = true;
+     cout<<v<<" ";
+     for(auto i = adj[v].begin(); i != adj[v].end(); i++ )
+     {
+        if(visited[*i] == false)
+            dfs(adj, *i, visited);
+     }
+}
+bool issafe(int x, int y, vector<vector<int> >& adj)
+{
+    if(x<adj.size() && y < adj[0].size() && x >=0 && y>=0 && adj[x][y] == 1 )
+        return true;
+
+    return false;
+}
+bool ratInMaze(vector<vector<int> >& adj, int x, int y, int dest_x, int des_y, vector<vector<int> >visited) //note
+{
+    if(des_y == y && dest_x == x)
+    {
+        return true;
+    }
+    int row_mov[4] = {1, -1, 0, 0};
+    int col_mov[4] = {0, 0, 1, -1};
+    visited[x][y] = 1;
+
+    
+    //for each neighbour, which is safe and a wall is not there, repeat this process
+    //you can do it by sepeartly too, but try the ilterative way
+    for(int move = 0; move < 4; move++)
+    {
+        int newx = x + row_mov[move];
+        int newy = y + col_mov[move];
+
+        if(issafe(newx, newy, adj) )
+        {
+            if(ratInMaze(adj, newx, newy, dest_x, des_y, visited))
+            {
+                return true; //check the reason here
+            }
+        }
+        //this is for backtracking.. check this one too
+        visited[x][y] = 0;
+
+    }
+    
+}
 int main()
 {
     /**
@@ -48,7 +99,8 @@ printList(adjList);
  * so 1D array is okay, as it denotes the node of the graph
  * and a stack, which is to go to the end of the neighbours
  *  **/
-
+map<int, bool> visited;
+dfs(adjList, 1, visited);
 
 
     return 0;
