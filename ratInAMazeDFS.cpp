@@ -62,7 +62,7 @@ bool ratInMaze(vector<vector<int> >& adj, int x, int y, int dest_x, int des_y, v
         }
         //this is for backtracking.. check this one too
         visited[x][y] = 0;
-
+        return false
     }
     
 }

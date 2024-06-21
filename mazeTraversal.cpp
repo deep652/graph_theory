@@ -52,6 +52,33 @@ class MazeTraversal
         visited[x][y] = 0;
     }
 
+    bool dfsPossible(int desX, int desY, int x, int y)
+    {
+        if(x == desX && y == desY)
+        {
+            return true;
+        }
+        visited[x][y] = 1;
+        //check from x all row direction and from y all col direction
+        for(int i=0; i<4; i++)
+        {
+            int newx = x + rowDir[i];
+            int newy = y + colDir[i];
+            //cout<<x<<","<<y<<endl;
+            if(isSafe(newx,newy))
+            {
+                
+                if(dfsPossible( desX, desY, newx, newy))
+                {
+                    return true;
+                }  
+            }
+        }
+        visited[x][y] = 0;
+        return false;
+    }
+
+
     void print()
     {
         for (const auto& p : allPaths)
@@ -72,12 +99,14 @@ int main()
         {1, 0, 0, 0},
         {1, 1, 0, 0},
         {0, 1, 0, 0},
-        {0, 1, 1, 1}
+        {0, 1, 0, 1}
         };
     MazeTraversal obj(grid);
 
     obj.dfs(3,3,0,0);
     obj.print();
+
+    cout<<endl<<obj.dfsPossible(3,3,0,0)<<endl;
     return 0;
 }
 
