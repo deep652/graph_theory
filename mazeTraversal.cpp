@@ -74,7 +74,7 @@ class MazeTraversal
                 }  
             }
         }
-        visited[x][y] = 0;
+        //visited[x][y] = 0;
         return false;
     }
 
@@ -99,7 +99,7 @@ int main()
         {1, 0, 0, 0},
         {1, 1, 0, 0},
         {0, 1, 0, 0},
-        {0, 1, 0, 1}
+        {0, 1, 1, 1}
         };
     MazeTraversal obj(grid);
 
