@@ -56,6 +56,7 @@ class BFSadjMatrixTraversal
     }
     
 };
+
 int main()
 {
     vector<vector<int> > adjMatrix = 
