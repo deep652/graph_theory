@@ -107,7 +107,35 @@ class bfsAdjList
             q.pop();
         }
     }
-    
+    bool bfsParentMap(int start, int target, map<int, int> &parentmap)
+    {
+        if(start == target)
+            return true;
+
+        queue<int> q;
+        q.push(start);
+        while(q.empty() == false )
+        {
+            int ele = q.front();
+            //i have to push all neighbor of this ele now
+            //into the que
+            for(int i=0; i<adjlist[ele].size(); i++)
+            {
+                if(visited[adjlist[ele][i]] == false)
+                {
+                    visited[adjlist[ele][i]] = true;
+                    parentmap[adjlist[ele][i]] = ele;
+                    q.push(adjlist[ele][i]);
+
+                    if(adjlist[ele][i] == target)
+                        return true;
+                }
+                   
+            }
+            q.pop();
+        }
+        return false;
+    }
 };
 int main()
 {
@@ -116,6 +144,13 @@ int main()
        |           |
        v           v
        D --> E <-- F
+
+       A - 0
+       B - 1
+       C - 2
+       D - 3
+       E - 4
+       F - 5
     */
     std::vector<std::vector<int>> adjList = {
         {1, 3},   // Node A points to nodes B and D
@@ -128,15 +163,66 @@ int main()
     bfsAdjList obj(adjList);
     //obj.print();
     vector<int> bfsorder;
-    obj.bfsVector(0, bfsorder);
-    for(auto x: bfsorder)
-    {
-        cout<<char('A' + x)<<"\t";
-    }
+    // obj.bfsVector(0, bfsorder);
+    // for(auto x: bfsorder)
+    // {
+    //     cout<<char('A' + x)<<"\t";
+    // }
 
     // Expected (A B D C E F )
 
     // Output (A	B	D	C	E	F)
     cout<<endl;
+    
+    //what chnages we need to make in bfs to get the shortest path from node 0 to node 4
+
+    map<int, int> parentmap;
+    obj.bfsParentMap(0, 4, parentmap);
+
+    for(auto c: parentmap)
+    {
+        cout<<char ('A' + c.first) <<"\t"<< char('A'+ c.second)<<endl;
+    }
+
+    /*
+    expected:
+    B -> A
+    D -> A
+    C -> B
+    E -> D
+    F -> C
+    output: 
+    B	A
+    C	B
+    D	A
+    E	D
+
+
+    the output stop pushing element is parent map as we founf the target, 4th node
+
+    */
+
+   //generate the path
+
+   int current = 4, start = 0;
+   vector<char> path;
+
+   while(current != start)
+   {
+        path.push_back(char('A'+current));
+        current = parentmap[current];
+   }
+   path.push_back(char('A' + start));
+
+   //reverse the path
+   reverse(path.begin(), path.end());
+
+    cout<<"path is: ";
+   for(auto x: path)
+   { 
+        cout<<x<<" ";
+   }
+   cout<<endl;
+
     return 0;
 }
