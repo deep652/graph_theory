@@ -224,5 +224,20 @@ int main()
    }
    cout<<endl;
 
+
+   /**
+    * suppose we are writing the code for cycle detection for the below graph
+    * 
+    std::vector<std::vector<int>> adjList = {
+    {1},       // 0 -> 1
+    {2, 3},    // 1 -> 2, 1 -> 3
+    {},        // 2
+    {4},       // 3 -> 4
+    {0}        // 4 -> 0
+    };
+    Now for this while travesing thhe 
+    * 
+   */
+
     return 0;
 }
